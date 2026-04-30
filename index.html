@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Songjiang — 1:1 Realistic Recreation</title>
+<style>
+:root {
+    --black: #000;
+    --gray-bg: #f5f5f7;
+    --text-dark: #1d1d1f;
+    --apple-blue: #0071e3;
+    --link-dark: #2997ff;
+    --dark-card: #272729;
+    --nav-glass: rgba(0,0,0,0.8);
+    --shadow-apple: rgba(0,0,0,0.22) 3px 5px 30px 0px;
+    --radius-sm: 8px;
+    --radius-pill: 980px;
+    --apple-ease: cubic-bezier(0.16,1,0.3,1);
+}
+* {margin:0;padding:0;box-sizing:border-box}
+body {
+    font-family: -apple-system, BlinkMacSystemFont,"SF Pro Display","SF Pro Text",sans-serif;
+    background:var(--gray-bg);
+    -webkit-font-smoothing:antialiased
+}
+nav {
+    position:fixed;top:0;width:100%;height:48px;
+    background:var(--nav-glass);
+    backdrop-filter:blur(20px);
+    z-index:999;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.nav-wrap {
+    max-width:980px;height:100%;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px
+}
+.nav-brand {color:#fff;font-size:17px;font-weight:600;letter-spacing:-0.3px}
+.nav-item {color:rgba(255,255,255,.8);font-size:12px;margin:0 12px;text-decoration:none;transition:color 0.2s}
+.nav-item:hover {color:#fff}
+.hero {
+    width:100%;min-height:100vh;background:var(--black);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding-top:48px;text-align:center
+}
+.hero h1 {font-size:clamp(40px,8vw,72px);font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-1px}
+.hero p {font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.72);margin-bottom:36px;letter-spacing:0.3px}
+.hero-actions {display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.btn-solid {
+    background:var(--apple-blue);color:#fff;font-size:17px;padding:12px 24px;
+    border-radius:var(--radius-sm);text-decoration:none;
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+    box-shadow:0 4px 14px rgba(0,113,227,0.3);
+}
+.btn-solid:hover {
+    background:#006edc;
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(0,113,227,0.4);
+}
+.btn-outline {
+    border:1px solid var(--link-dark);color:var(--link-dark);font-size:17px;padding:12px 28px;
+    border-radius:var(--radius-pill);text-decoration:none;
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-outline:hover {
+    background:rgba(41,119,255,0.1);
+    transform:translateY(-2px);
+}
+.section-light {width:100%;padding:100px 20px;background:var(--gray-bg)}
+.section-dark {width:100%;padding:100px 20px;background:var(--black)}
+.container {max-width:980px;margin:0 auto}
+.section-title {font-size:clamp(28px,5vw,40px);font-weight:700;margin-bottom:14px;letter-spacing:-0.5px}
+.section-light .section-title {color:var(--text-dark)}
+.section-dark .section-title {color:#fff}
+.section-desc {font-size:clamp(15px,1.5vw,17px);max-width:660px;margin-bottom:40px;line-height:1.6}
+.section-light .section-desc {color:rgba(0,0,0,.8)}
+.section-dark .section-desc {color:rgba(255,255,255,.7)}
+.grid-2 {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.card {
+    padding:36px;border-radius:12px;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.card h3 {font-size:clamp(20px,2.5vw,28px);margin-bottom:14px;letter-spacing:-0.3px}
+.card p {font-size:clamp(14px,1.2vw,17px);line-height:1.6}
+.section-light .card {
+    background:#fff;
+    box-shadow:var(--shadow-apple);
+}
+.section-light .card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 8px 40px rgba(0,0,0,0.12);
+}
+.section-dark .card {
+    background:var(--dark-card);
+}
+.section-dark .card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 8px 40px rgba(0,0,0,0.3);
+}
+.card h3 {font-size:28px;margin-bottom:16px}
+.section-light .card h3 {color:#000}
+.section-dark .card h3 {color:#fff}
+.card p {font-size:17px}
+.section-light .card p {color:#333}
+.section-dark .card p {color:rgba(255,255,255,.68)}
+.community-grid {display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
+.community-card {
+    padding:40px;border-radius:var(--radius-sm);background:var(--dark-card);
+    text-align:center;
+    transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.community-card:hover {
+    transform:translateY(-8px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+.community-card h3 {font-size:28px;color:#fff;margin-bottom:12px}
+.community-card p {color:rgba(255,255,255,.68);font-size:17px;margin-bottom:24px}
+.slider {
+    width:100%;height:500px;border-radius:16px;overflow:hidden;
+    position:relative;margin-top:30px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.15);
+    transition:box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.slider:hover {
+    box-shadow:0 12px 50px rgba(0,0,0,0.25);
+}
+.slider-track {height:100%;display:flex;animation:slide 15s linear infinite}
+.slider img {height:100%;width:100%;object-fit:cover;flex-shrink:0;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1)}
+.slider:hover img {transform:scale(1.02)}
+@keyframes slide {0%{transform:translateX(0)}100%{transform:translateX(-200%)}}
+.notice {
+    background:#fff;border-radius:16px;padding:32px 40px;
+    box-shadow:var(--shadow-apple);margin-top:20px;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.notice:hover {
+    transform:translateY(-4px);
+    box-shadow:0 12px 48px rgba(0,0,0,0.12);
+}
+.notice h3 {font-size:24px;color:var(--text-dark);margin-bottom:16px;letter-spacing:-0.3px}
+.notice p {font-size:17px;color:#333;line-height:1.7}
+.notice p::before {
+    content:'•';
+    margin-right:10px;
+    color:var(--apple-blue);
+}
+.table {
+    width:100%;border-collapse:collapse;background:#fff;
+    border-radius:12px;overflow:hidden;box-shadow:var(--shadow-apple);
+    transition:box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.table:hover {
+    box-shadow:0 12px 48px rgba(0,0,0,0.15);
+}
+.table th {
+    background:var(--apple-blue);color:#fff;padding:20px 24px;text-align:left;
+    font-weight:600;font-size:14px;letter-spacing:0.3px;
+}
+.table td {padding:20px 24px;border-bottom:1px solid #f0f0f0;font-size:16px}
+.table tr {transition:background 0.2s}
+.table tr:hover td {background:#f8f8fa}
+.table tr:last-child td {border-bottom:0}
+.fade {
+    opacity:0;
+    transform:translateY(40px);
+    transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.fade.show {
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* BUG邮箱图标样式 */
+.mail-grid {
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    max-width:600px;margin:0 auto
+}
+.mail-item {
+    background:#fff;border-radius:12px;padding:20px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    text-decoration:none;color:#000;
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+    cursor:pointer;border:none;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+.mail-item:hover {
+    transform:translateY(-6px);
+    background:#fff;
+    box-shadow:0 12px 32px rgba(0,0,0,0.15);
+}
+.mail-item img {width:40px;height:40px;object-fit:contain}
+.mail-item span {font-size:14px;font-weight:500}
+
+/* ===== 音乐控制按钮 + 气泡提示 ===== */
+.music-btn {
+    position:fixed;bottom:24px;right:24px;z-index:1000;
+    width:48px;height:48px;border-radius:50%;border:none;
+    background:rgba(0,0,0,0.75);color:#fff;
+    cursor:pointer;backdrop-filter:blur(20px);
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);display:flex;
+    align-items:center;justify-content:center;
+    padding:0;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.music-btn:hover {
+    background:rgba(0,0,0,0.9);
+    transform:scale(1.1) translateY(-2px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+.music-btn.muted .music-icon {opacity:0.4}
+.music-btn .music-icon {
+    width:22px;height:22px;object-fit:contain;
+    filter:brightness(0) invert(1);
+    transition:opacity .3s var(--apple-ease);
+    pointer-events:none
+}
+
+/* 气泡提示 */
+.music-tooltip {
+    position:fixed;
+    bottom:84px;
+    right:24px;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(10px);
+    color:#fff;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13px;
+    white-space:nowrap;
+    opacity:0;
+    transform:translateY(10px);
+    transition:all .3s var(--apple-ease);
+    pointer-events:none;
+    z-index:1000;
+}
+.music-tooltip::after {
+    content:'';
+    position:absolute;
+    bottom:-6px;
+    right:18px;
+    width:0;height:0;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-top:6px solid rgba(0,0,0,0.8);
+}
+.music-tooltip.show {
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ===== 歌词框样式 ===== */
+.lyrics-box {
+    position:fixed;
+    bottom:130px;
+    right:24px;
+    width:320px;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(20px);
+    border-radius:16px;
+    padding:20px 24px;
+    z-index:999;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    opacity:0;
+    transform:translateY(20px);
+    transition:all .5s var(--apple-ease);
+    pointer-events:none;
+}
+.lyrics-box.show {
+    opacity:1;
+    transform:translateY(0);
+}
+.lyrics-title {
+    color:rgba(255,255,255,0.5);
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.lyrics-title::before {
+    content:'';
+    display:inline-block;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--apple-blue);
+    animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:0.5;transform:scale(0.8)}
+}
+.lyrics-content {
+    height:96px;
+    overflow:hidden;
+    position:relative;
+    mask-image:linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image:linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+.lyrics-line {
+    color:rgba(255,255,255,0.4);
+    font-size:14px;
+    line-height:32px;
+    text-align:center;
+    transition:all .4s var(--apple-ease);
+    position:absolute;
+    width:100%;
+    transform:translateY(32px);
+    opacity:0;
+}
+.lyrics-line.active {
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    transform:translateY(0);
+    opacity:1;
+    text-shadow:0 0 20px rgba(255,255,255,0.3);
+}
+.lyrics-line.prev {
+    transform:translateY(-32px);
+    opacity:0.25;
+}
+.lyrics-line.next {
+    transform:translateY(32px);
+    opacity:0.25;
+}
+
+/* 加载动画遮罩 - 优雅风格 */
+.loader-overlay {
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    background:#000;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.loader-overlay.hidden {
+    opacity:0;
+    pointer-events:none;
+}
+.loader-content {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:48px;
+}
+.loader-video {
+    max-width:500px;
+    max-height:55vh;
+    object-fit:contain;
+}
+/* Win11 风格圆环加载圈 */
+.loader-spinner {
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,0.1);
+    border-top-color:rgba(255,255,255,0.8);
+    border-right-color:rgba(255,255,255,0.4);
+    animation:win11spin 0.8s linear infinite;
+}
+@keyframes win11spin {
+    to {transform:rotate(360deg)}
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {width:8px}
+::-webkit-scrollbar-track {background:rgba(0,0,0,0.05)}
+::-webkit-scrollbar-thumb {background:rgba(0,0,0,0.2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover {background:rgba(0,0,0,0.3)}
+
+/* 跳转页面 */
+.jump-overlay {
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:#000;z-index:999999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;
+    transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.jump-overlay.show {
+    opacity:1;pointer-events:auto;
+}
+.jump-overlay .jump-content {
+    display:flex;flex-direction:column;align-items:center;
+    transform:scale(0.9);
+    transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.jump-overlay.show .jump-content {
+    transform:scale(1);
+}
+.jump-overlay .jump-video {
+    max-width:320px;max-height:40vh;
+    object-fit:contain;margin-bottom:40px;
+}
+.jump-overlay .jump-text {
+    color:rgba(255,255,255,0.7);
+    font-size:14px;letter-spacing:0.5px;
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.jump-overlay .jump-text .dots {
+    display:flex;gap:4px;
+}
+.jump-overlay .jump-text .dots span {
+    width:6px;height:6px;border-radius:50%;
+    background:rgba(255,255,255,0.5);
+    animation:dotJump 1.4s infinite;
+}
+.jump-overlay .jump-text .dots span:nth-child(2) {animation-delay:0.2s}
+.jump-overlay .jump-text .dots span:nth-child(3) {animation-delay:0.4s}
+@keyframes dotJump {
+    0%, 80%, 100% {transform:scale(0.8);opacity:0.5}
+    40% {transform:scale(1);opacity:1}
+}
+
+/* 回到顶部按钮 */
+.back-to-top {
+    position:fixed;bottom:24px;left:24px;z-index:999;
+    width:56px;height:56px;border-radius:50%;
+    background:rgba(0,0,0,0.75);backdrop-filter:blur(20px);
+    border:none;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:2px;
+    opacity:0;pointer-events:none;
+    transform:translateY(10px);
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.back-to-top.show {
+    opacity:1;pointer-events:auto;
+    transform:translateY(0);
+}
+.back-to-top:hover {
+    background:rgba(0,0,0,0.9);
+    transform:translateY(-4px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+.back-to-top .arrow {
+    width:0;height:0;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-bottom:8px solid rgba(255,255,255,0.9);
+}
+.back-to-top .text {
+    color:rgba(255,255,255,0.7);
+    font-size:9px;font-weight:600;
+    letter-spacing:0.5px;
+}
+
+/* 跳转页面取消按钮 */
+.jump-cancel {
+    position:absolute;top:24px;right:24px;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.jump-cancel:hover {
+    background:rgba(255,255,255,0.2);
+    transform:scale(1.1);
+}
+.jump-cancel::before, .jump-cancel::after {
+    content:'';position:absolute;
+    width:16px;height:2px;background:rgba(255,255,255,0.8);
+    border-radius:1px;
+}
+.jump-cancel::before {
+    transform:rotate(45deg);
+}
+.jump-cancel::after {
+    transform:rotate(-45deg);
+}
+
+/* 页脚 */
+footer {padding:50px 20px;text-align:center;font-size:13px;color:rgba(0,0,0,.4);background:var(--gray-bg);letter-spacing:0.3px}
+</style>
+</head>
+<body>
+
+<!-- 加载动画遮罩 -->
+<div class="loader-overlay" id="loaderOverlay">
+    <div class="loader-content">
+        <video class="loader-video" id="loaderVideo" autoplay muted playsinline disablePictureInPicture>
+            <source src="logo.webm" type="video/webm">
+        </video>
+        <div class="loader-spinner"></div>
+    </div>
+</div>
+
+<!-- 跳转页面 -->
+<div class="jump-overlay" id="jumpOverlay">
+    <button class="jump-cancel" id="jumpCancel" title="取消"></button>
+    <div class="jump-content">
+        <video class="jump-video" id="jumpVideo" autoplay muted playsinline disablePictureInPicture>
+            <source src="logo.webm" type="video/webm">
+        </video>
+        <div class="jump-text">
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span>正在自动跳转</span>
+        </div>
+    </div>
+</div>
+
+<!-- 背景音乐 —— Pinata 专用网关直链 -->
+<audio id="bgm" loop>
+    <source src="https://white-fast-gerbil-931.mypinata.cloud/ipfs/bafybeib4uibki4ztmosrvdosw6wwkvsucgkcwdf2opilunqro2lzhr5pyq" type="audio/mpeg">
+    你的浏览器不支持音频播放。
+</audio>
+
+<!-- 音乐控制按钮 —— 白色矢量喇叭图标 -->
+<button class="music-btn muted" id="musicBtn" onclick="toggleMusic()" title="点击播放背景音乐">
+    <img class="music-icon" id="musicIcon" src="https://www.citypng.com/public/uploads/preview/png-sound-speaker-outline-white-icon-701751694974270kd4ccrhzes.png" alt="音乐开关">
+</button>
+
+<!-- 回到顶部按钮 -->
+<button class="back-to-top" id="backToTop" title="返回 SDRPC Studio 官网">
+    <div class="arrow"></div>
+    <div class="text">SDRPC</div>
+</button>
+
+<!-- 气泡提示 -->
+<div class="music-tooltip" id="musicTooltip">点击播放音乐</div>
+
+<!-- ===== 歌词框 ===== -->
+<div class="lyrics-box" id="lyricsBox">
+    <div class="lyrics-title">Now Playing</div>
+    <div class="lyrics-content" id="lyricsContent">
+        <!-- 歌词行由 JS 动态生成 -->
+    </div>
+</div>
+
+<nav>
+<div class="nav-wrap">
+<div class="nav-brand">Songjiang</div>
+<div class="nav-menu">
+<a href="#tech" class="nav-item">核心技术</a>
+<a href="#showcase" class="nav-item">游戏展示</a>
+<a href="#notice" class="nav-item">游戏公告</a>
+<a href="#bug" class="nav-item">BUG反馈</a>
+<a href="#traffic" class="nav-item">交通体系</a>
+<a href="#community" class="nav-item">社区</a>
+<a href="#list" class="nav-item">已开发</a>
+</div>
+</div>
+</nav>
+
+<div class="hero fade">
+<h1>写实新生。</h1>
+<p>上海松江 1:1 全域实景复刻计划</p>
+<div class="hero-actions">
+<a href="#tech" class="btn-solid">核心技术</a>
+<a href="#community" class="btn-outline">加入社区</a>
+</div>
+</div>
+
+<section class="section-light fade" id="tech">
+<div class="container">
+<h2 class="section-title">核心技术</h2>
+<p class="section-desc">自研工业级轨道交通系统，轻量化、无插件、高稳定、高还原。</p>
+<div class="grid-2">
+<div class="card">
+<h3>GOA4 级 ATO 自动驾驶</h3>
+<p>双PID闭环控制、四阶加减速、精准停车、PSD安全联动。</p>
+</div>
+<div class="card">
+<h3>全域联动系统</h3>
+<p>真实音效、到站广播、屏蔽门动画、智能调度同步运行。</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section-dark fade" id="showcase">
+<div class="container">
+<h2 class="section-title">游戏展示</h2>
+<p class="section-desc">实景复刻 | 高画质 | 沉浸式城市体验</p>
+<div class="slider">
+<div class="slider-track">
+<!-- 游戏截图 —— 你的4张图 -->
+<img src="https://s41.ax1x.com/2026/04/25/pehSvOf.jpg" alt="游戏截图1">
+<img src="https://s41.ax1x.com/2026/04/25/pehpifs.png" alt="游戏截图2">
+<img src="https://s41.ax1x.com/2026/04/25/pehpS0S.png" alt="游戏截图3">
+</div>
+</div>
+</div>
+</section>
+
+<section class="section-light fade" id="notice">
+<div class="container">
+<h2 class="section-title">游戏公告</h2>
+<p class="section-desc">最新更新、维护通知、版本信息</p>
+<div class="notice">
+<h3>📢 2026年4月更新公告</h3>
+<p>• 新增 GOA4 级 ATO 自动驾驶系统，全线启用</p>
+<p>• 优化地铁7号线、9号线站点与运行逻辑</p>
+<p>• 新增写实载具系统，支持公交、私家车运行</p>
+<p>• 修复已知问题，提升整体稳定性与流畅度</p>
+</div>
+</div>
+</section>
+
+<!-- BUG反馈 —— 邮箱图标恢复为原来的9个品牌图标 -->
+<section class="section-dark fade" id="bug">
+<div class="container">
+<h2 class="section-title">BUG 反馈</h2>
+<p class="section-desc">选择你常用的邮箱客户端，点击即可直接给我发送邮件</p>
+<div class="mail-grid">
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://s1.aigei.com/src/img/png/f4/f4d0ef4f562c430e914b9ff5a1560a77.png?imageMogr2/auto-orient/thumbnail/!282x200r/gravity/Center/crop/282x200/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:sRK9n2mLzEyiOAOel9U8K9QokTk=" alt="QQ邮箱">
+<span>QQ邮箱</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://s1.aigei.com/src/img/png/4e/4e3792771e3340bd8853f173876af15a.png?imageMogr2/auto-orient/thumbnail/!282x282r/gravity/Center/crop/282x282/quality/85/%7CimageView2/2/w/282&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:An-72uL_jLuz3o3Lxu1QWcDtVoc=" alt="163邮箱">
+<span>163邮箱</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://src.onlinedown.net/d/file/p/2017-03-16/18bce669b192189340fc3db5c814f860.png" alt="126邮箱">
+<span>126邮箱</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://pic.pngsucai.com/00/10/95/4571071ec823412d.webp" alt="Outlook">
+<span>Outlook</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://img.icons8.com/fluency/96/000000/gmail.png" alt="Gmail">
+<span>Gmail</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8d/8f/bf/8d8fbfec-56f6-8ea8-6410-fd61d8e1ce9d/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/640x640bb.webp" alt="新浪邮箱">
+<span>新浪邮箱</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://img.icons8.com/fluency/96/000000/sohu.png" alt="搜狐邮箱">
+<span>搜狐邮箱</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://img-blog.csdnimg.cn/direct/55ff3ee356fd4e619c76724f636a5d18.png" alt="Foxmail">
+<span>Foxmail</span>
+</a>
+<a class="mail-item" href="mailto:1259774560@qq.com?subject=Songjiang%20BUG反馈&body=请描述你遇到的问题：%0A%0A1.%20BUG描述：%0A2.%20复现步骤：%0A3.%20期望结果：%0A%0A联系方式（可选）：" target="_blank">
+<img src="https://img.icons8.com/fluency/96/000000/139.png" alt="139邮箱">
+<span>139邮箱</span>
+</a>
+</div>
+<p style="text-align:center;color:#aaa;margin-top:20px;font-size:14px">收件人：1259774560@qq.com | 点击任意图标直接发送邮件</p>
+</div>
+</section>
+
+<section class="section-light fade" id="traffic">
+<div class="container">
+<h2 class="section-title">交通体系</h2>
+<p class="section-desc">地铁+载具双系统并行，完整还原松江交通脉络。</p>
+<div class="grid-2">
+<div class="card">
+<h3>地铁线路复刻</h3>
+<p>7号线、9号线线路、站点、运营逻辑高度写实。</p>
+</div>
+<div class="card">
+<h3>写实载具系统</h3>
+<p>公交、私家车、特种车辆全覆盖，城市生态闭环。</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section-dark fade" id="community">
+<div class="container">
+<h2 class="section-title">加入社群</h2>
+<p class="section-desc">前往 Roblox 体验，或加入 QQ 官方群，获取更新与内测资格。</p>
+<div class="community-grid">
+<div class="community-card">
+<h3>Roblox 社区</h3>
+<p>直达项目游玩页面</p>
+<a href="#" data-url="https://www.roblox.com/communities/472236759/unnamed" class="btn-solid jump-link">立即前往</a>
+</div>
+<div class="community-card">
+<h3>QQ 官方群</h3>
+<p>SDRPC Studio · 上海松江交流群</p>
+<a href="#" data-url="https://qm.qq.com/q/TZEJ4hZXwG" class="btn-outline jump-link">加入群聊</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section-dark fade" id="list">
+<div class="container">
+<h2 class="section-title">已开发功能清单</h2>
+<p class="section-desc">可直接编辑、增删内容</p>
+<table class="table">
+<tr>
+<th>功能模块</th>
+<th>状态</th>
+</tr>
+<tr>
+<td>GOA4 级 ATO 自动驾驶</td>
+<td>✅ 已完成</td>
+</tr>
+<tr>
+<td>双PID闭环控制</td>
+<td>✅ 已完成</td>
+</tr>
+<tr>
+<td>精准停车 + PSD联动</td>
+<td>✅ 已完成</td>
+</tr>
+<tr>
+<td>地铁7号线 / 9号线复刻</td>
+<td>✅ 已完成</td>
+</tr>
+<tr>
+<td>写实载具控制系统</td>
+<td>✅ 已完成</td>
+</tr>
+<tr>
+<td>_______________</td>
+<td>✅ 已完成</td>
+</tr>
+</table>
+</div>
+</section>
+
+<footer>© 2026 Songjiang 1:1 Realistic Recreation</footer>
+
+<script>
+// ===== 加载动画控制 - 跨页面记忆 =====
+// 注意：如果页面显示异常，请先清除浏览器sessionStorage
+const loaderOverlay = document.getElementById('loaderOverlay');
+const loaderVideo = document.getElementById('loaderVideo');
+
+// 检查是否已经加载过（sessionStorage）
+const hasLoadedBefore = sessionStorage.getItem('sdrpc_loaded');
+
+// 如果已经加载过，隐藏加载页面（但保持页面可见）
+if (hasLoadedBefore) {
+    loaderOverlay.classList.add('hidden');
+    console.log('页面已加载过，跳过加载动画');
+} else {
+    console.log('首次加载，显示加载动画');
+    // 第一次加载，监听视频结束
+    loaderVideo.addEventListener('ended', () => {
+        loaderOverlay.classList.add('hidden');
+        sessionStorage.setItem('sdrpc_loaded', 'true');
+        console.log('视频播放完毕，保存状态');
+    });
+    
+    loaderVideo.addEventListener('error', () => {
+        loaderOverlay.classList.add('hidden');
+        sessionStorage.setItem('sdrpc_loaded', 'true');
+        console.log('视频加载失败，但仍保存状态');
+    });
+}
+
+// ===== 跳转页面控制 =====
+const jumpOverlay = document.getElementById('jumpOverlay');
+const jumpVideo = document.getElementById('jumpVideo');
+const jumpLinks = document.querySelectorAll('.jump-link');
+const jumpCancel = document.getElementById('jumpCancel');
+
+let jumpTimer = null;
+let shouldJump = true;
+
+// 点击链接显示跳转页面
+jumpLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetUrl = link.dataset.url;
+        if (!targetUrl) return;
+        
+        // 重置状态
+        shouldJump = true;
+        
+        // 显示跳转页面
+        jumpOverlay.classList.add('show');
+        
+        // 重新播放视频
+        jumpVideo.currentTime = 0;
+        jumpVideo.play();
+        
+        // 视频播放完毕或超时后跳转
+        const handleJump = () => {
+            if (shouldJump) {
+                setTimeout(() => {
+                    // 在新标签页打开链接
+                    window.open(targetUrl, '_blank');
+                    // 打开返回窗口
+                    openReturnWindow();
+                    // 隐藏跳转页面
+                    jumpOverlay.classList.remove('show');
+                }, 300);
+            }
+        };
+        
+        // 监听视频结束
+        jumpVideo.addEventListener('ended', handleJump, { once: true });
+        
+        // 备用：超时后也跳转
+        jumpTimer = setTimeout(handleJump, 3000);
+    });
+});
+
+// ===== 跨页面返回按钮 - 侧边栏模式 =====
+function openReturnWindow() {
+    const returnUrl = window.location.origin + window.location.pathname;
+    const returnPage = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SDRPC</title>
+<style>
+* {margin:0;padding:0;box-sizing:border-box}
+body {
+    background:transparent;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    overflow:hidden;
+}
+.container {
+    position:fixed;
+    bottom:20px;right:20px;
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.toggle-btn {
+    width:56px;height:56px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#0071e3,#00a0ff);
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 20px rgba(0,113,227,0.5);
+    transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+    position:fixed;bottom:20px;right:20px;
+}
+.toggle-btn:hover {
+    transform:scale(1.1);
+    box-shadow:0 8px 30px rgba(0,113,227,0.6);
+}
+.toggle-btn .icon {
+    width:24px;height:24px;
+    background:#fff;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z'/%3E%3C/svg%3E") center/contain no-repeat;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.return-panel {
+    background:rgba(0,0,0,0.9);
+    backdrop-filter:blur(20px);
+    border-radius:16px;
+    padding:24px;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.5);
+    animation:slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from {opacity:0;transform:translateY(10px) scale(0.95)}
+    to {opacity:1;transform:translateY(0) scale(1)}
+}
+.return-panel.show {display:flex}
+.return-panel .logo-video {
+    width:120px;height:120px;
+    border-radius:12px;
+    object-fit:cover;
+    background:#000;
+}
+.return-panel .btn {
+    padding:12px 28px;
+    background:#0071e3;color:#fff;
+    border:none;border-radius:10px;
+    font-size:15px;font-weight:600;
+    cursor:pointer;
+    transition:all 0.3s;
+}
+.return-panel .btn:hover {
+    background:#006edc;transform:translateY(-2px);
+}
+.return-panel .close-btn {
+    position:absolute;top:8px;right:8px;
+    width:24px;height:24px;
+    background:rgba(255,255,255,0.2);
+    border:none;border-radius:50%;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background 0.2s;
+}
+.return-panel .close-btn:hover {background:rgba(255,255,255,0.3)}
+.close-btn::before, .close-btn::after {
+    content:'';position:absolute;
+    width:12px;height:2px;background:#fff;border-radius:1px;
+}
+.close-btn::before {transform:rotate(45deg)}
+.close-btn::after {transform:rotate(-45deg)}
+.tips {
+    color:rgba(255,255,255,0.5);
+    font-size:11px;text-align:center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="return-panel" id="panel">
+        <button class="close-btn" id="closeBtn"></button>
+        <video class="logo-video" autoplay muted loop playsinline disablePictureInPicture>
+            <source src="logo.webm" type="video/webm">
+        </video>
+        <button class="btn" id="returnBtn">返回首页</button>
+        <p class="tips">点击按钮返回 SDRPC Studio<br>刷新页面需重新打开</p>
+    </div>
+    <button class="toggle-btn" id="toggleBtn" title="SDRPC 返回">
+        <div class="icon"></div>
+    </button>
+</div>
+<script>
+const panel = document.getElementById('panel');
+const toggleBtn = document.getElementById('toggleBtn');
+const closeBtn = document.getElementById('closeBtn');
+const returnBtn = document.getElementById('returnBtn');
+const video = document.querySelector('video');
+
+toggleBtn.onclick = () => panel.classList.toggle('show');
+closeBtn.onclick = () => panel.classList.remove('show');
+returnBtn.onclick = () => {
+    sessionStorage.setItem('sdrpc_loaded', 'true');
+    window.location.href = '${returnUrl}';
+};
+document.addEventListener('keydown', e => { if(e.key === 'Escape') panel.classList.remove('show'); });
+<\/script>
+</body>
+</html>`;
+    
+    const popup = window.open('', 'sdrpc_return', 'width=60,height=60,menubar=no,toolbar=no,resizable=no,location=no,status=no,scrollbars=no');
+    if (popup) {
+        popup.document.write(returnPage);
+        popup.document.close();
+        // 移动到右下角
+        popup.moveTo(screen.width - 80, screen.height - 80);
+        popup.focus();
+    }
+}
+
+// 点击取消按钮
+jumpCancel.addEventListener('click', () => {
+    shouldJump = false;
+    if (jumpTimer) {
+        clearTimeout(jumpTimer);
+        jumpTimer = null;
+    }
+    jumpOverlay.classList.remove('show');
+});
+
+// 点击背景也可以取消
+jumpOverlay.addEventListener('click', (e) => {
+    if (e.target === jumpOverlay) {
+        jumpCancel.click();
+    }
+});
+
+// ===== 歌词数据 —— 稻香 =====
+const lyricsData = [
+    {time: 0.00, text: "稻香 - 周杰伦"},
+    {time: 7.73, text: "词：周杰伦"},
+    {time: 15.47, text: "曲：周杰伦"},
+    {time: 23.19, text: "编曲：黄雨勋"},
+    {time: 30.94, text: "对这个世界如果你有太多的抱怨"},
+    {time: 34.21, text: "跌倒了就不敢继续往前走"},
+    {time: 37.31, text: "为什么人要这么的脆弱堕落"},
+    {time: 41.46, text: "请你打开电视看看"},
+    {time: 43.07, text: "多少人为生命在努力勇敢的走下去"},
+    {time: 47.07, text: "我们是不是该知足"},
+    {time: 49.46, text: "珍惜一切就算没有拥有"},
+    {time: 53.99, text: "还记得你说家是唯一的城堡"},
+    {time: 57.67, text: "随着稻香河流继续奔跑"},
+    {time: 60.68, text: "微微笑 小时候的梦我知道"},
+    {time: 65.70, text: "不要哭让萤火虫带着你逃跑"},
+    {time: 69.45, text: "乡间的歌谣永远的依靠"},
+    {time: 72.37, text: "回家吧 回到最初的美好"},
+    {time: 101.07, text: "不要这么容易就想放弃"},
+    {time: 103.29, text: "就像我说的"},
+    {time: 104.79, text: "追不到的梦想换个梦不就得了"},
+    {time: 107.75, text: "为自己的人生鲜艳上色"},
+    {time: 109.81, text: "先把爱涂上喜欢的颜色"},
+    {time: 112.75, text: "笑一个吧"},
+    {time: 113.75, text: "功成名就不是目的"},
+    {time: 115.74, text: "让自己快乐快乐这才叫做意义"},
+    {time: 118.67, text: "童年的纸飞机"},
+    {time: 120.18, text: "现在终于飞回我手里"},
+    {time: 124.40, text: "所谓的那快乐"},
+    {time: 125.81, text: "赤脚在田里追蜻蜓追到累了"},
+    {time: 128.78, text: "偷摘水果被蜜蜂给叮到怕了"},
+    {time: 131.77, text: "谁在偷笑呢"},
+    {time: 133.28, text: "我靠着稻草人"},
+    {time: 134.53, text: "吹着风 唱着歌 睡着了"},
+    {time: 137.50, text: "午后吉他在虫鸣中更清脆"},
+    {time: 140.41, text: "阳光洒在路上就不怕心碎"},
+    {time: 143.03, text: "珍惜一切 就算没有拥有"},
+    {time: 147.65, text: "还记得你说家是唯一的城堡"},
+    {time: 151.43, text: "随着稻香河流继续奔跑"},
+    {time: 154.37, text: "微微笑 小时候的梦我知道"},
+    {time: 159.37, text: "不要哭让萤火虫带着你逃跑"},
+    {time: 163.15, text: "乡间的歌谣永远的依靠"},
+    {time: 166.04, text: "回家吧 回到最初的美好"},
+    {time: 171.08, text: "还记得你说家是唯一的城堡"},
+    {time: 174.81, text: "随着稻香河流继续奔跑"},
+    {time: 177.78, text: "微微笑 小时候的梦我知道"},
+    {time: 182.75, text: "不要哭让萤火虫带着你逃跑"},
+    {time: 186.53, text: "乡间的歌谣永远的依靠"},
+    {time: 189.47, text: "回家吧 回到最初的美好"}
+];
+
+// 滚动淡入动画 - 交错效果
+const fadeEls = document.querySelectorAll('.fade');
+let fadeIndex = 0;
+const io = new IntersectionObserver(e => e.forEach(i => {
+    if (i.isIntersecting) {
+        const el = i.target;
+        const delay = (fadeIndex % 5) * 100;
+        setTimeout(() => {
+            el.classList.add('show');
+        }, delay);
+        fadeIndex++;
+        io.unobserve(el);
+    }
+}), {threshold: 0.15, rootMargin: '0px 0px -50px 0px'});
+fadeEls.forEach(el => io.observe(el));
+
+// ===== 回到顶部按钮 =====
+const backToTop = document.getElementById('backToTop');
+
+// 监听滚动显示按钮
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) {
+        backToTop.classList.add('show');
+    } else {
+        backToTop.classList.remove('show');
+    }
+});
+
+// 点击返回顶部
+backToTop.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// 音乐控制
+const audio = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+const musicTooltip = document.getElementById('musicTooltip');
+const lyricsBox = document.getElementById('lyricsBox');
+const lyricsContent = document.getElementById('lyricsContent');
+let isPlaying = false;
+let currentLyricIndex = -1;
+
+// 初始化歌词DOM
+function initLyrics() {
+    lyricsContent.innerHTML = '';
+    lyricsData.forEach((line, index) => {
+        const div = document.createElement('div');
+        div.className = 'lyrics-line';
+        div.textContent = line.text;
+        div.dataset.index = index;
+        lyricsContent.appendChild(div);
+    });
+}
+initLyrics();
+
+// 更新歌词高亮
+function updateLyrics(currentTime) {
+    let newIndex = -1;
+    for (let i = lyricsData.length - 1; i >= 0; i--) {
+        if (currentTime >= lyricsData[i].time) {
+            newIndex = i;
+            break;
+        }
+    }
+    
+    if (newIndex !== currentLyricIndex && newIndex >= 0) {
+        currentLyricIndex = newIndex;
+        const lines = lyricsContent.querySelectorAll('.lyrics-line');
+        
+        lines.forEach((line, idx) => {
+            line.classList.remove('active', 'prev', 'next');
+            if (idx === newIndex) {
+                line.classList.add('active');
+            } else if (idx === newIndex - 1) {
+                line.classList.add('prev');
+            } else if (idx === newIndex + 1) {
+                line.classList.add('next');
+            }
+        });
+    }
+}
+
+// 监听音频时间更新
+audio.addEventListener('timeupdate', () => {
+    if (isPlaying) {
+        updateLyrics(audio.currentTime);
+    }
+});
+
+// ===== 气泡提示逻辑 =====
+function showTooltip(text) {
+    musicTooltip.textContent = text;
+    musicTooltip.classList.add('show');
+}
+
+function hideTooltip() {
+    musicTooltip.classList.remove('show');
+}
+
+// 鼠标悬停显示提示
+musicBtn.addEventListener('mouseenter', () => {
+    if (audio.paused) {
+        showTooltip('点击播放音乐');
+    } else {
+        showTooltip('点击暂停音乐');
+    }
+});
+musicBtn.addEventListener('mouseleave', hideTooltip);
+
+// 页面首次点击时尝试播放
+document.body.addEventListener('click', function initAudio() {
+    if (!isPlaying) {
+        audio.volume = 0.3;
+        audio.play().then(() => {
+            isPlaying = true;
+            musicBtn.classList.remove('muted');
+            lyricsBox.classList.add('show');
+            hideTooltip();
+        }).catch(e => console.log('音频播放失败:', e));
+    }
+    document.body.removeEventListener('click', initAudio);
+}, {once: true});
+
+function toggleMusic() {
+    if (audio.paused) {
+        audio.play();
+        musicBtn.classList.remove('muted');
+        lyricsBox.classList.add('show');
+        isPlaying = true;
+        showTooltip('点击暂停音乐');
+    } else {
+        audio.pause();
+        musicBtn.classList.add('muted');
+        lyricsBox.classList.remove('show');
+        isPlaying = false;
+        showTooltip('点击播放音乐');
+    }
+}
+
+</script>
+</body>
+</html>
